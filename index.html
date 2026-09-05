@@ -384,6 +384,13 @@ const SUPABASE_KEY="sb_publishable_liPI-xT_UOymxDqSbP4W7g_NybKseb4";
 let supabaseClient=null;
 let currentUser=null,currentUsername=null,guestMode=false,testMode=false;
 
+if(window.supabase&&typeof window.supabase.createClient==="function"){
+  try{ supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY); }
+  catch(e){ console.warn("Supabase init failed:",e); }
+}else{
+  console.warn("Supabase-JS Bibliothek nicht geladen (CDN-Skript blockiert oder noch nicht bereit?)");
+}
+
 const PRESTIGE_COST_BASE=3000;
 const UNLOCKED_GAMES_BY_PRESTIGE={1:["slots"],2:["slots","coin"],3:["slots","coin","roulette"],4:["slots","coin","roulette","blackjack"],5:["slots","coin","roulette","blackjack","mines"],6:["slots","coin","roulette","blackjack","mines","hilow"],7:["slots","coin","roulette","blackjack","mines","hilow","pump"],8:["slots","coin","roulette","blackjack","mines","hilow","pump","wheel"],9:["slots","coin","roulette","blackjack","mines","hilow","pump","wheel","plinko"],10:["slots","coin","roulette","blackjack","mines","hilow","pump","wheel","plinko","crystal"]};
 const GAMES=[
@@ -2356,4 +2363,3 @@ document.getElementById("resetBtn").addEventListener("click",async()=>{
 </script>
 </body>
 </html>
-
