@@ -199,14 +199,14 @@ button:disabled{opacity:.4;cursor:not-allowed}
 <input id="email" class="input" type="email" placeholder="E-Mail" autocomplete="email">
 <input id="loginPassword" class="input" type="password" placeholder="Passwort" autocomplete="current-password">
 <button id="loginBtn" class="primary big">🔐 ANMELDEN</button>
-<button id="registerBtn" class="green big">🆕 ACCOUNT ERSTELLEN</button>
+<button id="registerBtn" class="green big">ACCOUNT ERSTELLEN</button>
 <button id="testLoginBtn" class="big" style="display:none">🧪 TEST ACCOUNT</button>
 <button id="resetBtn" class="big">📧 PASSWORT ZURÜCKSETZEN</button>
 <div id="authMsg" class="sub"></div>
 </div>
 
 <div id="registerAuth" class="panel hidden">
-<h1 class="logo">🆕 ACCOUNT ERSTELLEN</h1>
+<h1 class="logo">ACCOUNT ERSTELLEN</h1>
 <p class="sub">Erstelle deinen Account mit E-Mail und einem eigenen Nutzernamen.</p>
 <input id="registerEmail" class="input" type="email" placeholder="E-Mail" autocomplete="email">
 <input id="registerUsername" class="input" maxlength="24" placeholder="Nutzername" autocomplete="nickname">
@@ -2298,7 +2298,7 @@ async function requestEmailCode(mode){
 function showLoginCodeStep(){
   const auth=document.getElementById("auth");
   const email=document.getElementById("email").value.trim();
-  auth.innerHTML=`<h1 class="logo">🔐 ANMELDEN</h1><p class="sub">Code an <b>${escapeHtml(email)}</b> gesendet. Prüfe deine E-Mail.</p><input id="loginCode" class="input" type="text" inputmode="numeric" maxlength="6" placeholder="Code aus der E-Mail" autocomplete="one-time-code"><button id="verifyLoginBtn" class="primary big">🔐 ANMELDEN</button><button id="backLoginBtn" class="big">← ZURÜCK</button><div id="authMsg" class="sub"></div>`;
+  auth.innerHTML=`<h1 class="logo">🔐 ANMELDEN</h1><p class="sub">Code an <b>${escapeHtml(email)}</b> gesendet. Prüfe deine E-Mail.</p><input id="loginCode" class="input" type="text" inputmode="numeric" maxlength="8" placeholder="Code aus der E-Mail" autocomplete="one-time-code"><button id="verifyLoginBtn" class="primary big">🔐 ANMELDEN</button><button id="backLoginBtn" class="big">← ZURÜCK</button><div id="authMsg" class="sub"></div>`;
   document.getElementById("verifyLoginBtn").addEventListener("click",verifyLoginCode);
   document.getElementById("backLoginBtn").addEventListener("click",()=>location.reload());
   document.getElementById("loginCode").focus();
@@ -2306,7 +2306,7 @@ function showLoginCodeStep(){
 
 async function verifyLoginCode(){
   const token=document.getElementById("loginCode").value.trim();
-  if(!/^\d{6}$/.test(token)) return alert("Bitte den 6-stelligen Code eingeben.");
+  if(!/^\d{6}$/.test(token)) return alert("Bitte den 8-stelligen Code eingeben.");
   const {data,error}=await supabaseClient.auth.verifyOtp({email:otpEmail||document.getElementById("email").value.trim().toLowerCase(),token,type:"email"});
   if(error) return alert("Code ungültig oder abgelaufen: "+error.message);
   otpPending=false; localStorage.removeItem("cyber_pending_auth");
@@ -2315,7 +2315,7 @@ async function verifyLoginCode(){
 
 async function verifyRegisterCode(){
   const token=document.getElementById("registerCode").value.trim();
-  if(!/^\d{6}$/.test(token)) return alert("Bitte den 6-stelligen Code eingeben.");
+  if(!/^\d{6}$/.test(token)) return alert("Bitte den 8-stelligen Code eingeben.");
   const {data,error}=await supabaseClient.auth.verifyOtp({email:registerEmailPending,token,type:"signup"});
   if(error) return alert("Code ungültig oder abgelaufen: "+error.message);
   otpPending=false; registerPending=false; localStorage.removeItem("cyber_pending_auth");
